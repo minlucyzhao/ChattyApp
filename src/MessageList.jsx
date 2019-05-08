@@ -3,12 +3,23 @@ import Message from './Message.jsx';
 
 class MessageList extends Component {
     render() {
-        return(
+        //messagesDelivered contains messages from App.jsx
+        let messagesDelivered = this.props.messages
+        // console.log("This is test to see if it entered Message List", messageDelivered);
+        let messageContent = messagesDelivered.map(message => {
+            return (
+                <Message 
+                    username={message.username}
+                    content={message.content}
+                />
+            )
+        });
+        return (
         <main className="messages">
-            <Message />
-            <div className="message system">
+            {messageContent}
+            {/* <div className="message system">
               Anonymous1 changed their name to nomnom.
-            </div>
+            </div> */}
         </main>
         );
     }
