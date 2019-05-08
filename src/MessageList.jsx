@@ -9,6 +9,7 @@ class MessageList extends Component {
         let messageContent = messagesDelivered.map(message => {
             return (
                 <Message 
+                    key={message.id}
                     username={message.username}
                     content={message.content}
                 />
