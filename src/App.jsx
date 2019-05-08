@@ -21,10 +21,17 @@ class App extends Component {
       ]
     };
     this.sendMessage = this.sendMessage.bind(this);
+    this.socket = new WebSocket('ws://localhost:3001'); //WEBSOCKET
   }
 
   componentDidMount() {
     console.log("componentDidMount <App />");
+
+    //WEBSOCKET
+    this.socket.onopen = () => {
+      console.log('Connected to Server');
+    };
+
     setTimeout(() => {
       console.log("Simulating incoming message");
       // Add a new message to the list of messages in the data store
@@ -34,6 +41,11 @@ class App extends Component {
       // Calling setState will trigger a call to render() in App and all child components.
       this.setState({ messages: messages })
     }, 3000);
+
+    //WEBSOCKET
+    this.onclose = () => {
+      console.log('Disconnected from Server');
+    };
   }
   
   sendMessage(userInput) {
