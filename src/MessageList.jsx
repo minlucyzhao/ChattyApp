@@ -4,9 +4,9 @@ import Message from './Message.jsx';
 class MessageList extends Component {
     render() {
         return(
-        <main class="messages">
+        <main className="messages">
             <Message />
-            <div class="message system">
+            <div className="message system">
               Anonymous1 changed their name to nomnom.
             </div>
         </main>
