@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 class Message extends Component {
     render() {
+        console.log("render() @ Message.jsx");
         return(
         <div className="message">
             <span className="message-username">

@@ -3,6 +3,7 @@ import Message from './Message.jsx';
 
 class MessageList extends Component {
     render() {
+        console.log("render() @ MessageList.jsx");
         //messagesDelivered contains messages from App.jsx
         let messagesDelivered = this.props.messages
         // console.log("This is test to see if it entered Message List", messageDelivered);
