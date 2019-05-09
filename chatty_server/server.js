@@ -1,5 +1,6 @@
 const express = require('express');
 const SocketServer = require('ws').Server;
+const uuidv4 = require('uuid/v4');
 
 // Set the port to 3001
 const PORT = 3001;
@@ -22,8 +23,14 @@ wss.on('connection', (ws) => {
   ws.on('message', function incoming(data) {
     //the data must be sent over the wire as a string. If passing JSON as a string, use JSON.parse() to convert the JSON string into an object the server can use it
     const receivedMessage = JSON.parse(data);
-    console.log(data);
-    console.log("User", receivedMessage.username, "said", receivedMessage.content);
+    // console.log(data);
+    // console.log("User", receivedMessage.username, "said", receivedMessage.content);
+    let dataWithMessageID = {
+      id: uuidv4(), //generates random ID)
+      username: receivedMessage.username,
+      content: receivedMessage.content
+    };
+    console.log(dataWithMessageID);
   });
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.

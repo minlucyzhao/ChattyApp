@@ -7,18 +7,7 @@ class App extends Component {
     super(props);
     this.state = {
       currentUser: {name: "Bob"},
-      messages: [
-        {
-          id: 1,
-          username: "Bob",
-          content: "Has anyone seen my marbles?",
-        },
-        {
-          id: 2,
-          username: "Anonymous",
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-        }
-      ]
+      messages: [] // messages coming from the server will be stored here as they arrive
     };
     this.addMessage = this.addMessage.bind(this);
     this.socket = new WebSocket('ws://localhost:3001');
