@@ -6,7 +6,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: "Bob"},
       messages: [
         {
           id: 1,
@@ -20,42 +20,39 @@ class App extends Component {
         }
       ]
     };
-    this.sendMessage = this.sendMessage.bind(this);
-    this.socket = new WebSocket('ws://localhost:3001'); //WEBSOCKET
+    this.addMessage = this.addMessage.bind(this);
+    this.socket = new WebSocket('ws://localhost:3001');
   }
 
   componentDidMount() {
-    console.log("componentDidMount <App />");
-
-    //WEBSOCKET
+    // console.log("componentDidMount <App />");
     this.socket.onopen = () => {
-      console.log('Connected to Server');
+      console.log('Connected to Websocket Server');
     };
 
-    setTimeout(() => {
-      console.log("Simulating incoming message");
-      // Add a new message to the list of messages in the data store
-      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-      const messages = this.state.messages.concat(newMessage)
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
-      this.setState({ messages: messages })
-    }, 3000);
+    // setTimeout(() => {
+    //   console.log("Simulating incoming message");
+    //   const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
+    //   const messages = this.state.messages.concat(newMessage)
+    //   this.setState({ messages: messages })
+    // }, 3000);
 
-    //WEBSOCKET
     this.onclose = () => {
-      console.log('Disconnected from Server');
+      console.log('Disconnected from Websocket Server');
     };
   }
-  
-  sendMessage(userInput) {
+
+  addMessage(msgInput) {
+    //user's message and re-render by changing state
     const newMessage = {
       id: this.state.messages.length + 1,
       username: this.state.currentUser.name,
-      content: userInput
+      content: msgInput
     };
-    const newMessages = this.state.messages.concat(newMessage)
-    this.setState({ messages: newMessages });
+    // const newMessages = this.state.messages.concat(newMessage)
+    // this.setState({ messages: newMessages });
+    this.socket.send(JSON.stringify(newMessage));
+    console.log("JSON stringify test", JSON.stringify(newMessage));
   }
   
   render() {
@@ -69,7 +66,7 @@ class App extends Component {
         <MessageList messages = {this.state.messages} />
         <ChatBar 
         currentUser = {this.state.currentUser} 
-        sendMessage = {this.sendMessage} 
+        addMessage = {this.addMessage}
         />
       </div>
     );
