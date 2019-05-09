@@ -1,9 +1,16 @@
 import React, {Component} from 'react';
 
 class ChatBar extends Component {
+    handleUsername = event => {
+      if (event.key === "Enter") {
+        // console.log("entered message", event.target.value);
+        this.props.addUsername(event.target.value);
+      }
+    };
+
     handleMessage = event => {
         if (event.key === "Enter") {
-          console.log("entered message", event.target.value);
+          // console.log("entered message", event.target.value);
           this.props.addMessage(event.target.value);
         }
     };
@@ -17,7 +24,8 @@ class ChatBar extends Component {
           <input 
           className="chatbar-username" 
           placeholder="Your Name (Optional)" 
-          defaultValue = {this.props.currentUser.name} //Bob
+          // defaultValue = {this.props.currentUser.name}
+          onKeyDown = {this.handleUsername}
           />
 
           <input className="chatbar-message" 
