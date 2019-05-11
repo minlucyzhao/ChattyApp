@@ -2,73 +2,81 @@ import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
 
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {name: 'TO BE EMPTIED'},
-      messages: [] // messages coming from the server will be stored here as they arrive
-      //messages: [] format
-      // {
-      //   id: 1,
-      //   username: "Bob",
-      //   content: "Hello this is Bob"
-      // }
+      currentUser: {name: 'Anonymous'},
+      messages: [], // messages coming from the server will be stored here as they arrive
     };
     this.addMessage = this.addMessage.bind(this);
-    this.addUsername = this.addUsername.bind(this);
+    this.changeUsername = this.changeUsername.bind(this);
     this.socket = new WebSocket('ws://localhost:3001');
   }
 
   componentDidMount() {
-    // console.log("componentDidMount <App />");
     this.socket.onopen = () => {
       console.log('Connected to Websocket Server');
     };
 
     this.socket.onmessage = (event) => {
-      console.log("event arrived at app.jsx", event.data);
-      // on receiving a message, add it to the list of messages
-      const message = JSON.parse(event.data)
-      //append it to the state
-      const messages = this.state.messages.concat(message)
-      this.setState({ currentUser: event.data.username });
-      this.setState({ messages: messages })
+      console.log("componentDidMount()", event.data);
+
+      //data from server comes here
+      const messageFromServer = JSON.parse(event.data)
+      
+      //if incomingmessage, setstate for messages
+      //if incomingNotification, setstate of currentUser as newName
+      switch(messageFromServer.type) {
+        case "incomingMessage":
+          const allMessages = this.state.messages.concat(JSON.parse(event.data))
+          this.setState({ 
+            currentUser: {name: messageFromServer.username},
+            messages: allMessages 
+          })
+          console.log("111111 messages", this.state.messages)
+          break;
+
+        case "incomingNotification":
+          const everyMessages = this.state.messages.concat(JSON.parse(event.data))
+          console.log("333333333")
+          this.setState({ 
+          currentUser: { name: messageFromServer.newName },
+          messages: everyMessages 
+          })
+         console.log("222222 currentUser", this.state.currentUser)
+          break;
+      }
     }
-    // setTimeout(() => {
-    //   console.log("Simulating incoming message");
-    //   const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-    //   const messages = this.state.messages.concat(newMessage)
-    //   this.setState({ messages: messages })
-    // }, 3000);
-
-    // this.onclose = () => {
-    //   console.log('Disconnected from Websocket Server');
-    // };
-  }
-
-  addUsername(nameInput) {
-    console.log(nameInput);
-    const newMessage = {
-      // id: this.state.messages.length + 1,
-      username: nameInput,
-      content: "This is an automatically generated message."
-    };
-    this.socket.send(JSON.stringify(newMessage));
   }
 
   addMessage(msgInput) {
     const newMessage = {
-      // id: this.state.messages.length + 1,
-      username: this.state.currentUser,
+      type: "postMessage",
+      username: this.state.currentUser.name,
       content: msgInput
     };
-    // const newMessages = this.state.messages.concat(newMessage)
-    // this.setState({ messages: newMessages });
+    console.log("addMessage username", this.state.currentUser.name)
     this.socket.send(JSON.stringify(newMessage));
     // console.log("JSON stringify test", JSON.stringify(newMessage));
   }
+
+  changeUsername(newName, oldName) {
+    const newUsername = {
+      type: "postNotification",
+      // content: this.state.currentUser.name + " has been changed to " + nameInput + ".",
+      oldName: oldName,
+      newName: newName
+      };
+      console.log("oldName at changeUsername()", oldName);
+      console.log("newName at changeUsername()", newName);
+      console.log("currentUser name at changeUsername()", this.state.currentUser.name);
+      this.setState({ currentUser: {name: newName}}); //necessary to set user as newName
+      this.socket.send(JSON.stringify(newUsername));
+  }
   
+  // passes states and props to children
   render() {
     console.log("render() @ App.jsx");
     console.log("all messages", this.state.messages);
@@ -77,10 +85,13 @@ class App extends Component {
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>
-        <MessageList messages = {this.state.messages} />
+        <MessageList 
+        messages = {this.state.messages} 
+        />
         <ChatBar 
         addMessage = {this.addMessage}
-        addUsername = {this.addUsername}
+        oldName= {this.state.currentUser.name}
+        changeUsername = {this.changeUsername}
         />
       </div>
     );

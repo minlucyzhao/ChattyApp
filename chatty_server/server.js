@@ -31,29 +31,26 @@ wss.broadcast = function broadcast(data) {
 wss.on('connection', (ws) => {
   console.log('Client connected');
 
-  ws.on('message', function incoming(data) {
+  ws.on('message', (data) => {
     //the data must be sent over the wire as a string. If passing JSON as a string, use JSON.parse() to convert the JSON string into an object the server can use it
+
     const receivedMessage = JSON.parse(data);
-    // console.log(data);
+    receivedMessage.id = uuidv4();
     // console.log("User", receivedMessage.username, "said", receivedMessage.content);
-    
-    // ADD MESSAGE ID
-    let dataWithMessageID = {
-      id: uuidv4(), //generates random ID)
-      username: receivedMessage.username,
-      content: receivedMessage.content
-    };
-    console.log(dataWithMessageID);
+    switch(receivedMessage.type) {
+      case "postMessage":
+        receivedMessage.type = "incomingMessage";
+        break;
+      case "postNotification":
+        receivedMessage.type = "incomingNotification";
+        console.log(receivedMessage);
+        break;
+    }
 
-    let stringifiedMessage = JSON.stringify(dataWithMessageID)
-    console.log(stringifiedMessage);
-
-    wss.broadcast(stringifiedMessage)
+    let stringifiedMessage = JSON.stringify(receivedMessage);
+    wss.broadcast(stringifiedMessage);
   });
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
   ws.on('close', () => console.log('Client disconnected'));
 });
-
-//Question for Mentor
-//Network -> WS -> Frames (not showing in Chrome)
