@@ -24,25 +24,12 @@ class App extends Component {
 
       //data from server comes here
       const messageFromServer = JSON.parse(event.data);
-      
+      const allMessages = this.state.messages.concat(JSON.parse(event.data))
       //if incomingmessage, setstate for messages
       //if incomingNotification, setstate of currentUser as newName
-      switch(messageFromServer.type) {
-        case 'incomingMessage': {
-          const allMessages = this.state.messages.concat(JSON.parse(event.data))
-          this.setState({ 
-            messages: allMessages 
-          })
-          break;
-        }
-        case 'incomingNotification': {
-          const everyMessages = this.state.messages.concat(JSON.parse(event.data))
-          this.setState({ 
-            messages: everyMessages 
-          })
-          break;
-        }
-      }
+      this.setState({ 
+        messages: allMessages 
+      })
     }
   }
 
