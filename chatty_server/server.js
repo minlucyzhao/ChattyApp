@@ -36,6 +36,8 @@ wss.on('connection', (ws) => {
 
     const receivedMessage = JSON.parse(data);
     receivedMessage.id = uuidv4();
+    console.log(receivedMessage);
+
     // console.log("User", receivedMessage.username, "said", receivedMessage.content);
     switch(receivedMessage.type) {
       case "postMessage":
@@ -43,7 +45,6 @@ wss.on('connection', (ws) => {
         break;
       case "postNotification":
         receivedMessage.type = "incomingNotification";
-        console.log(receivedMessage);
         break;
     }
 

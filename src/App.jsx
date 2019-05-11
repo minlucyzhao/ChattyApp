@@ -21,32 +21,27 @@ class App extends Component {
     };
 
     this.socket.onmessage = (event) => {
-      console.log("componentDidMount()", event.data);
 
       //data from server comes here
-      const messageFromServer = JSON.parse(event.data)
+      const messageFromServer = JSON.parse(event.data);
       
       //if incomingmessage, setstate for messages
       //if incomingNotification, setstate of currentUser as newName
       switch(messageFromServer.type) {
-        case "incomingMessage":
+        case 'incomingMessage': {
           const allMessages = this.state.messages.concat(JSON.parse(event.data))
           this.setState({ 
-            currentUser: {name: messageFromServer.username},
             messages: allMessages 
           })
-          console.log("111111 messages", this.state.messages)
           break;
-
-        case "incomingNotification":
+        }
+        case 'incomingNotification': {
           const everyMessages = this.state.messages.concat(JSON.parse(event.data))
-          console.log("333333333")
           this.setState({ 
-          currentUser: { name: messageFromServer.newName },
-          messages: everyMessages 
+            messages: everyMessages 
           })
-         console.log("222222 currentUser", this.state.currentUser)
           break;
+        }
       }
     }
   }
@@ -57,29 +52,22 @@ class App extends Component {
       username: this.state.currentUser.name,
       content: msgInput
     };
-    console.log("addMessage username", this.state.currentUser.name)
+    console.log("JSON stringify test", JSON.stringify(newMessage));
     this.socket.send(JSON.stringify(newMessage));
-    // console.log("JSON stringify test", JSON.stringify(newMessage));
   }
 
   changeUsername(newName, oldName) {
     const newUsername = {
       type: "postNotification",
-      // content: this.state.currentUser.name + " has been changed to " + nameInput + ".",
       oldName: oldName,
       newName: newName
-      };
-      console.log("oldName at changeUsername()", oldName);
-      console.log("newName at changeUsername()", newName);
-      console.log("currentUser name at changeUsername()", this.state.currentUser.name);
-      this.setState({ currentUser: {name: newName}}); //necessary to set user as newName
-      this.socket.send(JSON.stringify(newUsername));
+    };
+    this.setState({ currentUser: {name: newName}}); //necessary to set user as newName
+    this.socket.send(JSON.stringify(newUsername));
   }
   
   // passes states and props to children
   render() {
-    console.log("render() @ App.jsx");
-    console.log("all messages", this.state.messages);
     return (
       <div>
         <nav className="navbar">
