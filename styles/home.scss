@@ -13,8 +13,6 @@ body {
   margin: 70px 0;
 }
 
-
-
 .chatbar {
   // background: tomato;
   // border-top: 1px solid black;
@@ -97,3 +95,10 @@ body {
   text-decoration: none;
 }
 
+.navbar-users {
+  float: right;
+  color: white;
+  text-decoration: bold;
+  line-height: 60px;
+  padding-right: 20px;
+}

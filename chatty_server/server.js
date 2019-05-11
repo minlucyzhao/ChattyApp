@@ -30,14 +30,17 @@ wss.broadcast = function broadcast(data) {
 
 wss.on('connection', (ws) => {
   console.log('Client connected');
+  //Count number of users
+  let userCount = { numUsers: wss.clients.size };
+  let stringifiedCount = JSON.stringify(userCount);
+  wss.broadcast(stringifiedCount);
 
   ws.on('message', (data) => {
     //the data must be sent over the wire as a string. If passing JSON as a string, use JSON.parse() to convert the JSON string into an object the server can use it
 
     const receivedMessage = JSON.parse(data);
     receivedMessage.id = uuidv4();
-    console.log(receivedMessage);
-
+    
     // console.log("User", receivedMessage.username, "said", receivedMessage.content);
     switch(receivedMessage.type) {
       case "postMessage":
@@ -53,5 +56,10 @@ wss.on('connection', (ws) => {
   });
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => {
+    console.log('Client disconnected')
+    let userCount = { numUsers: wss.clients.size };
+    let stringifiedCount = JSON.stringify(userCount);
+    wss.broadcast(stringifiedCount);
+  });
 });

@@ -9,6 +9,7 @@ class App extends Component {
     this.state = {
       currentUser: {name: 'Anonymous'},
       messages: [], // messages coming from the server will be stored here as they arrive
+      numUsers: 0
     };
     this.addMessage = this.addMessage.bind(this);
     this.changeUsername = this.changeUsername.bind(this);
@@ -20,16 +21,20 @@ class App extends Component {
       console.log('Connected to Websocket Server');
     };
 
+    //Broadcast to all clients
     this.socket.onmessage = (event) => {
-
-      //data from server comes here
-      const messageFromServer = JSON.parse(event.data);
-      const allMessages = this.state.messages.concat(JSON.parse(event.data))
-      //if incomingmessage, setstate for messages
-      //if incomingNotification, setstate of currentUser as newName
-      this.setState({ 
-        messages: allMessages 
-      })
+      const parsedData = JSON.parse(event.data);
+      if(parsedData.numUsers) {
+        this.setState({
+          numUsers: parsedData.numUsers
+        })
+      } else {
+        // const messageFromServer = JSON.parse(event.data);
+        const allMessages = this.state.messages.concat(JSON.parse(event.data))
+        this.setState({ 
+          messages: allMessages 
+        })
+      }
     }
   }
 
@@ -49,7 +54,7 @@ class App extends Component {
       oldName: oldName,
       newName: newName
     };
-    this.setState({ currentUser: {name: newName}}); //necessary to set user as newName
+    this.setState({ currentUser: {name: newName}}); //change state of the specific client
     this.socket.send(JSON.stringify(newUsername));
   }
   
@@ -59,6 +64,7 @@ class App extends Component {
       <div>
         <nav className="navbar">
           <a href="/" className="navbar-brand">Chatty</a>
+          <span className="navbar-users">Active Users: {this.state.numUsers} </span>
         </nav>
         <MessageList 
         messages = {this.state.messages} 
