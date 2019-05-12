@@ -1,45 +1,32 @@
-React Boilerplate
+Chatty Fruit
 =====================
 
-A minimal and light dev environment for ReactJS.
+Chatty Fruit is a client-side SPA (single-page application) that allows multiple users to chat with each other. The client-side app, built with ReactJS, communicates with a server via WebSockets for multi-user real-time updates.
 
 ### Usage
 
-Clone the boilerplate and create your own git repo.
-
+Clone the repo to your local machine.
 ```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
+git clone git@github.com:minlucyzhao/Chattyfruit.git
+cd Chattyfruit
 ```
-
 Install the dependencies and start the server.
-
 ```
 npm install
 npm start
-open http://localhost:3000
+open http://localhost:3001
 ```
 
-### Static Files
+## Final App
 
-You can store static files like images, fonts, etc in the `build` folder.
+![ChattyFruit](https://github.com/minlucyzhao/ChattyFruit/build/chattyfruit.png)
 
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
-
-### Linting
-
-This boilerplate project includes React ESLint configuration.
-
-```
-npm run lint
-```
 
 ### Dependencies
 
-* React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+* ReactJS
+* Babel
+* SASS
+* Express
+* Websockets
+* UUID
