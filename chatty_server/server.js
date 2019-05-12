@@ -34,14 +34,10 @@ wss.on('connection', (ws) => {
   let userCount = { numUsers: wss.clients.size };
   let stringifiedCount = JSON.stringify(userCount);
   wss.broadcast(stringifiedCount);
-
   ws.on('message', (data) => {
     //the data must be sent over the wire as a string. If passing JSON as a string, use JSON.parse() to convert the JSON string into an object the server can use it
-
     const receivedMessage = JSON.parse(data);
     receivedMessage.id = uuidv4();
-    
-    // console.log("User", receivedMessage.username, "said", receivedMessage.content);
     switch(receivedMessage.type) {
       case "postMessage":
         receivedMessage.type = "incomingMessage";
@@ -50,7 +46,6 @@ wss.on('connection', (ws) => {
         receivedMessage.type = "incomingNotification";
         break;
     }
-
     let stringifiedMessage = JSON.stringify(receivedMessage);
     wss.broadcast(stringifiedMessage);
   });

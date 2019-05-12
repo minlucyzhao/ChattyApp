@@ -29,7 +29,6 @@ class App extends Component {
           numUsers: parsedData.numUsers
         })
       } else {
-        // const messageFromServer = JSON.parse(event.data);
         const allMessages = this.state.messages.concat(JSON.parse(event.data))
         this.setState({ 
           messages: allMessages 
