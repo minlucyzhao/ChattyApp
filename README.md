@@ -17,6 +17,11 @@ npm start
 open http://localhost:3001
 ```
 
+## Final App
+
+![ChattyFruit](https://github.com/minlucyzhao/ChattyFruit/blob/master/build/chattyfruit.png)
+
+
 ### Dependencies
 
 * ReactJS
@@ -25,7 +30,3 @@ open http://localhost:3001
 * Express
 * Websockets
 * UUID
-
-## Final App
-
-![ChattyFruit](https://github.com/minlucyzhao/ChattyFruit/blob/master/build/chattyfruit.png)
