@@ -1,9 +1,10 @@
-// h1 {
-//   color: tomato;
-// }
-
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
+
+// * {
+//   border: black solid;
+// }
+
 
 body {
   background: white;
@@ -29,19 +30,20 @@ body {
   // border: 1px solid black;
   border: 1px solid lightgrey;
   display: block;
-  border-radius: 9px;
-  height: 50px;
-  line-height: 40px;
+  border-radius: 11px;
+  height: 48px;
+  line-height: 45px;
   margin: 5px;
   padding: 0 9px;
+  background-color: rgba(255, 255, 255, 0.548);
 }
 
 .chatbar-message {
-  flex: 8;
+  flex: 9;
 }
 
 .chatbar-username {
-  flex: 2;
+  flex: 1;
 }
 
 .message {
@@ -58,21 +60,26 @@ body {
 .message-username {
   overflow: hidden;
   margin: 5px;
-  padding: 0 10px;
+  padding: 0px 15px;
+  line-height: 1.7;
 }
 
 .message-content {
   flex: 8;
+  background-color: rgb(255, 247, 248);
+  border-radius: 20px;
+  width: 20%;
+  line-height: 2;
 }
 
 .message-username {
-  flex: 2;
+  // flex: 2;
   font-weight: 700;
 }
 
 .navbar {
   // background: tomato;
-  background: #FF6F61;
+  background: #FD3A6C;
   // border-bottom: 1px solid black;
   height: 60px;
   left: 0;
@@ -93,6 +100,11 @@ body {
   line-height: 60px;
   padding: 0 10px;
   text-decoration: none;
+}
+
+.navbar-logo {
+  height: 70%;
+  padding-top: 9px;
 }
 
 .navbar-users {

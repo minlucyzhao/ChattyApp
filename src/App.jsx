@@ -63,6 +63,7 @@ class App extends Component {
     return (
       <div>
         <nav className="navbar">
+          <img className="navbar-logo" src="./img/peach.png" alt="fruity chatty" />
           <a href="/" className="navbar-brand">Chatty</a>
           <span className="navbar-users">Active Users: {this.state.numUsers} </span>
         </nav>

@@ -4,7 +4,6 @@ class ChatBar extends Component {
     handleUsername = event => {
       let oldName = this.props.oldName;
       if (event.key === "Enter") {
-        // console.log("entered new name", event.target.value);
         let newName = event.target.value;
         console.log("newName at ChatBar.jsx", newName);
         console.log("oldName at ChatBar.jsx", oldName);
