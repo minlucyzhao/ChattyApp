@@ -19,7 +19,7 @@ open http://localhost:3001
 
 ## Final App
 
-![ChattyFruit](https://github.com/minlucyzhao/ChattyFruit/build/chattyfruit.png)
+![ChattyFruit](https://github.com/minlucyzhao/ChattyFruit/blob/master/build/chattyfruit.png)
 
 
 ### Dependencies
