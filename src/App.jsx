@@ -20,7 +20,6 @@ class App extends Component {
     this.socket.onopen = () => {
       console.log('Connected to Websocket Server');
     };
-
     //Broadcast to all clients
     this.socket.onmessage = (event) => {
       const parsedData = JSON.parse(event.data);
