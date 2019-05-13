@@ -43,7 +43,7 @@ wss.on('connection', (ws) => {
         receivedMessage.type = "incomingMessage";
         break;
       case "postNotification":
-        receivesdMessage.type = "incomingNotification";
+        receivedMessage.type = "incomingNotification";
         break;
     }
     let stringifiedMessage = JSON.stringify(receivedMessage);
